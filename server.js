@@ -13,7 +13,7 @@ const app = express();
 // ORDER MATTERS: CORS, then JSON parser, then cookie parser
 app.use(
   cors({
-    origin: "https://tejprojecttodo.vercel.app/",
+    origin: "https://tejprojecttodo.vercel.app",
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization"],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
