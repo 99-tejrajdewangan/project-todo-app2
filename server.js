@@ -10,15 +10,26 @@ const todoRoutes = require("./routes/todos");
 connectDB();
 const app = express();
 
-// ORDER MATTERS: CORS, then JSON parser, then cookie parser
-app.use(
-  cors({
-    origin: "https://tejprojecttodo.vercel.app",
-    credentials: true,
-    allowedHeaders: ["Content-Type", "Authorization"],
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  }),
-); // 🛡️ Enhanced CORS for project creation
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://tejprojecttodo.vercel.app'
+];
+
+app.use(cors({
+  origin: function(origin, callback) {
+    // allow requests with no origin (like mobile apps or curl)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) === -1) {
+      const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
