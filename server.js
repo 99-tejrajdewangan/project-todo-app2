@@ -45,6 +45,10 @@ app.post("/api/test-project", (req, res) => {
   res.json({ success: true, received: req.body });
 });
 
+app.get('/', (req, res) => {
+  res.status(200).json({ success: true, message: 'TaskFlow API is live' });
+});
+
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/projects", projectRoutes);
